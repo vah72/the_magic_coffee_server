@@ -1,0 +1,40 @@
+Index: src/main/java/com/example/demo/user/oauth/SpringSecurityConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.demo.user.oauth;\r\n\r\nimport com.example.demo.user.service.UserJwtService;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.context.annotation.Bean;\r\nimport org.springframework.context.annotation.Configuration;\r\nimport org.springframework.security.config.annotation.web.builders.HttpSecurity;\r\nimport org.springframework.security.config.annotation.web.builders.WebSecurity;\r\nimport org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;\r\nimport org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;\r\nimport org.springframework.security.web.SecurityFilterChain;\r\nimport org.springframework.security.web.authentication.AuthenticationSuccessHandler;\r\n\r\n@Configuration\r\n@EnableWebSecurity\r\npublic class SpringSecurityConfig extends WebSecurityConfigurerAdapter {\r\n    @Autowired\r\n    private UserJwtService userJwtService;\r\n    @Autowired\r\n    AuthenticationSuccessHandler successHandler;\r\n\r\n    @Override\r\n    protected void configure(HttpSecurity http) throws Exception {\r\n        http.csrf().disable()\r\n                .authorizeRequests()\r\n                .antMatchers(\"/registration/**\",\"/login/**\", \"/user/**\",\r\n                        \"/**\").permitAll()\r\n                .anyRequest().authenticated()\r\n        ;\r\n    }\r\n\r\n    @Override\r\n    public void configure(WebSecurity web) throws Exception {\r\n        web.ignoring().antMatchers(\"/v3/api-docs/**\", \"/swagger-ui/**\", \"/api\");\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/demo/user/oauth/SpringSecurityConfig.java b/src/main/java/com/example/demo/user/oauth/SpringSecurityConfig.java
+--- a/src/main/java/com/example/demo/user/oauth/SpringSecurityConfig.java	
++++ b/src/main/java/com/example/demo/user/oauth/SpringSecurityConfig.java	
+@@ -26,7 +26,9 @@
+                 .antMatchers("/registration/**","/login/**", "/user/**",
+                         "/**").permitAll()
+                 .anyRequest().authenticated()
+-        ;
++                .and().oauth2Login().loginPage("/login").successHandler(successHandler);
++
++
+     }
+ 
+     @Override
+Index: src/main/java/com/example/demo/order/repository/OrderRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.demo.order.repository;\r\n\r\nimport com.example.demo.order.model.Order;\r\nimport org.springframework.data.jpa.repository.JpaRepository;\r\nimport org.springframework.data.jpa.repository.Query;\r\nimport org.springframework.data.repository.query.Param;\r\nimport org.springframework.stereotype.Repository;\r\n\r\nimport java.util.List;\r\n\r\n@Repository\r\npublic interface OrderRepository extends JpaRepository<Order, Long> {\r\n    Order findOrderById(Long id);\r\n\r\n    @Query(value = \"select * from orders where user_id= :id\", nativeQuery = true)\r\n    List<Order> getOrderByUser(@Param(\"id\") Long id);\r\n\r\n    Order getOrderById(Long id);\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/demo/order/repository/OrderRepository.java b/src/main/java/com/example/demo/order/repository/OrderRepository.java
+--- a/src/main/java/com/example/demo/order/repository/OrderRepository.java	
++++ b/src/main/java/com/example/demo/order/repository/OrderRepository.java	
+@@ -12,7 +12,7 @@
+ public interface OrderRepository extends JpaRepository<Order, Long> {
+     Order findOrderById(Long id);
+ 
+-    @Query(value = "select * from orders where user_id= :id", nativeQuery = true)
++    @Query(value = "select * from orders where user_id= :id order by time_order", nativeQuery = true)
+     List<Order> getOrderByUser(@Param("id") Long id);
+ 
+     Order getOrderById(Long id);
