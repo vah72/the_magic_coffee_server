@@ -12,8 +12,6 @@ import java.util.UUID;
 @Entity
 @Data
 public class Product {
-    @Transient
-    public static final String ORIGINAL_PATH="https://magic-coffee-img.s3.amazonaws.com/";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
