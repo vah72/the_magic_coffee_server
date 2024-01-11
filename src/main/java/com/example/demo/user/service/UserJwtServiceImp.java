@@ -1,6 +1,5 @@
 package com.example.demo.user.service;
 
-import com.amazonaws.services.connect.model.UserNotFoundException;
 import com.example.demo.user.dto.CommonResponse;
 import com.example.demo.user.dto.LoginDto;
 import com.example.demo.user.dto.UsersRegisteredDTO;

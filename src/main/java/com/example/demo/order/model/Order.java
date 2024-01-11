@@ -57,8 +57,6 @@ public class Order {
     private String status;
 
     private int rating;
-
-
 //
 //    /* get (đang thực hiện, đã hoàn tất, đã hủy), add, huy don hang, đánh giá đơn hàng
 //        - ma don hang

@@ -1,6 +1,5 @@
 package com.example.demo.product.service;
 
-import com.example.demo.product.awss3.BucketName;
 import com.example.demo.product.cloudinary.CloudinaryService;
 import com.example.demo.product.dto.ProductDto;
 import com.example.demo.product.dto.ProductResponse;
